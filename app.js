@@ -11,6 +11,9 @@ var db = monk('localhost:27017/ready-set-goal-backend-mongodb');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var projectsRouter = require('./routes/projects');
+var notesRouter = require('./routes/notes');
+var settingsRouter = require('./routes/settings');
 
 var app = express();
 
@@ -27,6 +30,9 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
+app.use('/notes', notesRouter);
+app.use('/settings', settingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,8 +46,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // send error
-  res.status(err.status || 500);
-  res.json(err);
+  res.status(err.status || 500).json(err);
 });
 
 module.exports = app;

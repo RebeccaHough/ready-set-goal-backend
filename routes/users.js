@@ -1,22 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+/* Get list of users */
 router.get('/', function(req, res) {
-  res.send('');
-});
-
-/* GET userlist page */
-router.get('/userlist', function(req, res) {
   var db = req.db;
   var collection = db.get('usercollection');
   collection.find({}, {}, function(e, docs) {
-    res.json({"userlist": docs})
+    res.json({"users": docs})
   })
 });
 
-/* POST to sign up service*/
-router.post('/adduser', function(req, res) {
+/* Add user */
+router.post('/add', function(req, res) {
   var db = req.db;
   var collection = db.get('usercollection');
 
@@ -46,8 +41,29 @@ router.post('/adduser', function(req, res) {
 
 });
 
-/* DELETE user */
-router.delete('/deleteuser/:id', function(req, res) {
+/* Get user */
+router.get('/:id', function(req, res) {
+  var db = req.db;
+  var collection = db.get('usercollection');
+
+  var userId = req.params.id;
+
+  collection.find({ '_id' : userId }, {}, function(err, docs) {
+    res.send(err || docs);
+  });
+});
+
+/* Update user */
+//TODO
+router.put('/:id', function(req, res) {
+  // var db = req.db;
+  // var collection = db.get('usercollection');
+
+  // var userId = req.params.id;
+});
+
+/* Delete user */
+router.delete('/delete/:id', function(req, res) {
   var db = req.db;
   var collection = db.get('usercollection');
 
